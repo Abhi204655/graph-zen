@@ -1,0 +1,10 @@
+.layers-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+
+  & > div:last-child {
+    margin-bottom: 1em;
+  }
+}
