@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Chart as ReactChart } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 import { useSelector } from "react-redux";
 Chart.register(...registerables);
 
 const Graph = () => {
-  let chartRef = useRef(null);
   const optionsData = useSelector((state) => state.chart.options);
   const dataObj = useSelector((state) => state.chart.data);
   const [options, setOptions] = useState(Object.assign({}, optionsData));

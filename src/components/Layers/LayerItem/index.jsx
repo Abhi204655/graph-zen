@@ -9,7 +9,7 @@ import {
   EyeOutlined,
   EyeInvisibleOutlined,
 } from "@ant-design/icons";
-import { remove, saveLayer, changeTitle } from "../../../app/slices/layerSlice";
+import { remove, saveLayer } from "../../../app/slices/layerSlice";
 import {
   addSeries,
   removeSeries,
