@@ -11,7 +11,6 @@ const Layers = () => {
         <LayerItem
           layer={layer}
           key={layer.id}
-          isLast={index === layers.length - 1 ? true : false}
         />
       ))}
     </div>

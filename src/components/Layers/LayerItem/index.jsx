@@ -26,11 +26,11 @@ const graphTypeData = [
   { label: "Area", value: "area" },
 ];
 
-const LayerItem = ({ layer, isLast }) => {
+const LayerItem = ({ layer }) => {
   const dispatch = useDispatch();
   const uploadedData = useSelector((state) => state.data.data);
   const dataTypes = useSelector((state) => state.data.dataTypes);
-  const [show, setShow] = useState(isLast);
+  const [show, setShow] = useState(!layer.saved);
 
   const layers = useSelector((state) => state.layer.layers);
   const multipleLayers = layer.multiLayer;
@@ -81,7 +81,6 @@ const LayerItem = ({ layer, isLast }) => {
     const graphColor = GetRandomColor();
 
     let bgColor = Color(graphColor).alpha(0.5).string();
-    console.log({ graphColor, bgColor });
 
     let newSeries = {
       id: layer.id,
@@ -123,6 +122,15 @@ const LayerItem = ({ layer, isLast }) => {
     dispatch(hideSeries({ id: layer.id, hidden: !hiddenStatus }));
   };
 
+  const handleShow = () => {
+    if (layer.saved) {
+      setShow(prev => !prev);
+    }
+    else {
+      message.warning("Please save the Layer First!")
+    }
+  }
+
   return (
     <div className={Styles["layer-wrapper"]}>
       <div className={Styles["layer-top"]}>
@@ -133,25 +141,28 @@ const LayerItem = ({ layer, isLast }) => {
           className={Styles["layer-title"]}
         /> */}
         <div className={Styles["btn-container"]}>
+          {layer.saved &&
           <Tooltip placement="bottom" title={hidden ? "Unhide" : "Hide"}>
             {hidden ? (
-              <EyeInvisibleOutlined onClick={handleHideLayer} />
+              <EyeInvisibleOutlined onClick={handleHideLayer}/>
             ) : (
-              <EyeOutlined onClick={handleHideLayer} />
+              <EyeOutlined onClick={handleHideLayer}/>
             )}
-          </Tooltip>
+          </Tooltip>}
           <Tooltip placement="bottom" title="Delete">
             <DeleteOutlined
               onClick={() => {
                 dispatch(remove(layer.id));
-                dispatch(removeSeries(layer.id));
+                if (layer.saved) {
+                  dispatch(removeSeries(layer.id));
+                }
               }}
               className={Styles["icon-btn"]}
             />
           </Tooltip>
           <DownOutlined
             className={Styles["icon-btn"]}
-            onClick={() => setShow((prev) => !prev)}
+            onClick={handleShow}
           />
         </div>
       </div>

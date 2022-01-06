@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Chart as ReactChart } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 import { useSelector } from "react-redux";
+import Styles from './graph.module.scss';
 Chart.register(...registerables);
 
 const Graph = () => {
@@ -13,9 +14,9 @@ const Graph = () => {
   );
 
   useEffect(() => {
-    if (dataObj.datasets.length > 0) {
-      setData(Object.assign({}, dataObj));
-    }
+
+    setData(Object.assign({}, dataObj));
+
     if (optionsData) {
       setOptions(Object.assign({}, optionsData));
     }
@@ -23,11 +24,11 @@ const Graph = () => {
 
   return (
     <>
-      {data && (
+      {data && data?.datasets?.length > 0 ? (
         <>
           <ReactChart id="stackD" type="bar" data={data} options={options} />
         </>
-      )}
+      ) : <h1 className={Styles.heading}>Please Add a Layer to see the magic🪄</h1>}
     </>
   );
 };
