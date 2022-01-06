@@ -2,16 +2,17 @@ import React, { useState } from "react";
 import Styles from "./file-upload.module.scss";
 import * as _util from "../../utils";
 import { useDispatch } from "react-redux";
-
 import { Upload, message, Modal, Button } from "antd";
-import { InboxOutlined } from "@ant-design/icons";
+import { InboxOutlined, ArrowRightOutlined } from "@ant-design/icons";
 import { upload } from "../../app/slices/dataSlice";
+import sample from '../../data/sample.json';
 
 const { Dragger } = Upload;
 
 const FileUpload = ({ visible, setVisible }) => {
   const [file, setFile] = useState(null);
   const dispatch = useDispatch();
+  console.log(sample)
 
   const handleOk = () => {
     if (file) {
@@ -21,7 +22,7 @@ const FileUpload = ({ visible, setVisible }) => {
         const result = _util.getJsonOutOfExcel(data);
         const formattedData = _util.formatData(JSON.parse(result));
         let _dataTypes = _util.getDataTypes(JSON.parse(result)[0]);
-        dispatch(upload({ fileName:file.name,data: formattedData, dataTypes: _dataTypes }));
+        dispatch(upload({ fileName: file.name, data: formattedData, dataTypes: _dataTypes }));
         message.success("file uploaded", 2);
         setVisible(false);
       };
@@ -57,10 +58,26 @@ const FileUpload = ({ visible, setVisible }) => {
       };
     },
   };
+
+  const renderTitle = () => {
+    return (
+      <div className={Styles["title-container"]}>
+        <p>Upload Data (.xlsx/.csv)</p>
+        <Button type="primary" onClick={() =>{
+          const payload={ fileName: sample.fileName, data: sample.data, dataTypes: sample.dataTypes };
+          dispatch(upload(payload));
+          setVisible(false);
+        }
+        } className={Styles["sample-data"]}>Use  Sample Data <ArrowRightOutlined /></Button>
+      </div>
+    )
+  }
+
+
   return (
     <div className="App">
       <Modal
-        title="Upload Data (.xlsx/.csv)"
+        title={renderTitle()}
         visible={visible}
         onOk={() => handleOk}
         onCancel={() => setVisible(false)}

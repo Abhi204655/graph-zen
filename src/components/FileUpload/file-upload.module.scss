@@ -2,3 +2,11 @@
   width: min(90%, 900px) !important;
   top: 100px;
 }
+.title-container{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.sample-data{
+  margin-right: 3em;
+}
