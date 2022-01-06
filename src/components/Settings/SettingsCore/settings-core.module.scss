@@ -1,0 +1,16 @@
+.setting-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  min-width: 250px;
+  & > h3 {
+    position: relative;
+    font-size: 1em;
+    font-weight: 600;
+  }
+  &-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3em;
+  }
+}

@@ -50,18 +50,23 @@ const chartSlice = createSlice({
         state.init = false;
       }
     },
-    hideSeries: (state, action) => {
+    changeChartColor: (state, action) => {
       if (state.data.datasets.length > 0) {
-        let currentDataset = state.data.datasets.find(
+        let isPresent = state.data.datasets.findIndex(
           (el) => el.id === action.payload.id
         );
-        currentDataset.hidden = action.payload.hidden;
+        if (isPresent !== -1) {
+          state.data.datasets[isPresent].borderColor =
+            action.payload.borderColor;
+          state.data.datasets[isPresent].backgroundColor =
+            action.payload.backgroundColor;
+        }
       }
     },
   },
 });
 
 const { reducer: chartReducer } = chartSlice;
-export const { addTitle, addSeries, removeSeries, hideSeries } =
+export const { addTitle, addSeries, removeSeries, changeChartColor } =
   chartSlice.actions;
 export default chartReducer;

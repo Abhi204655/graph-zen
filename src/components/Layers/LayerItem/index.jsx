@@ -6,14 +6,11 @@ import {
   DeleteOutlined,
   DownOutlined,
   SaveOutlined,
-  EyeOutlined,
-  EyeInvisibleOutlined,
 } from "@ant-design/icons";
 import { remove, saveLayer } from "../../../app/slices/layerSlice";
 import {
   addSeries,
   removeSeries,
-  hideSeries,
 } from "../../../app/slices/chartSlice";
 import Color from "color";
 import { GetRandomColor } from "../../../utils";
@@ -30,6 +27,7 @@ const LayerItem = ({ layer }) => {
   const dispatch = useDispatch();
   const uploadedData = useSelector((state) => state.data.data);
   const dataTypes = useSelector((state) => state.data.dataTypes);
+  const graphData = useSelector(state=> state.chart.data);
   const [show, setShow] = useState(!layer.saved);
 
   const layers = useSelector((state) => state.layer.layers);
@@ -38,8 +36,9 @@ const LayerItem = ({ layer }) => {
   const [xValue, setXValue] = useState(layer.xAxis ?? "");
   const [yValue, setYValue] = useState(layer.yAxis ?? "");
   const [graphType, setGraphType] = useState(layer.type ?? "");
+
+  const currentDataset = graphData.datasets.find(item => item.id === layer.id);
   //   const [layerTitle, setLayerTitle] = useState(layer.title);
-  const [hidden, setHidden] = useState(false);
 
   const handleChange = (value, type) => {
     switch (type) {
@@ -116,12 +115,6 @@ const LayerItem = ({ layer }) => {
     return false;
   };
 
-  const handleHideLayer = () => {
-    let hiddenStatus = hidden;
-    setHidden((prev) => !prev);
-    dispatch(hideSeries({ id: layer.id, hidden: !hiddenStatus }));
-  };
-
   const handleShow = () => {
     if (layer.saved) {
       setShow(prev => !prev);
@@ -134,21 +127,16 @@ const LayerItem = ({ layer }) => {
   return (
     <div className={Styles["layer-wrapper"]}>
       <div className={Styles["layer-top"]}>
-        <p>{layer.title}</p>
+      <div className={Styles["btn-container"]}>
+          <p>{layer.title}</p>
+          {layer.saved && currentDataset &&<span className={Styles["color-block"]} style={{background:`${currentDataset.backgroundColor}`,borderColor:`${currentDataset.borderColor}`}}/>}
+        </div>
         {/* <input
           value={layerTitle}
           onChange={handleLayerTitleChange}
           className={Styles["layer-title"]}
         /> */}
         <div className={Styles["btn-container"]}>
-          {layer.saved &&
-          <Tooltip placement="bottom" title={hidden ? "Unhide" : "Hide"}>
-            {hidden ? (
-              <EyeInvisibleOutlined onClick={handleHideLayer}/>
-            ) : (
-              <EyeOutlined onClick={handleHideLayer}/>
-            )}
-          </Tooltip>}
           <Tooltip placement="bottom" title="Delete">
             <DeleteOutlined
               onClick={() => {

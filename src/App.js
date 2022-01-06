@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import Styles from "./App.module.scss";
-import { FileUpload, Sidebar, Graph } from "./components";
+import { FileUpload, Sidebar, Graph,Settings } from "./components";
 
 function App() {
   const uploaded = useSelector((state) => state.data.uploaded);
@@ -13,8 +13,8 @@ function App() {
       <main className={Styles["App-wrapper"]}>
         <Sidebar />
         <div className={Styles["graph-container"]}>
-          {/* <h1>Graphs are gonna be here! 🔥</h1> */}
           <Graph />
+          <Settings />
         </div>
       </main>
     </>

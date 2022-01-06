@@ -28,7 +28,7 @@ const Graph = () => {
         <>
           <ReactChart id="stackD" type="bar" data={data} options={options} />
         </>
-      ) : <h1 className={Styles.heading}>Please Add a Layer to see the magic🪄</h1>}
+      ) : <div className={Styles["heading-wrapper"]}><h1 className={Styles.heading}>Please Add a Layer to see the magic🪄</h1></div>}
     </>
   );
 };

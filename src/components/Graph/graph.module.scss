@@ -1,3 +1,11 @@
+.heading-wrapper{
+    flex:1;
+    height:100%;
+    background: url('../../assets/icons/graph.svg') center no-repeat;
+    background-size: contain;
+    display: grid;
+    place-content: center;
+}
 .heading{
     font-size: max(2vw,3em);
     font-weight: bold;
