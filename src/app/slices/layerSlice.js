@@ -8,6 +8,7 @@ const createLayer = (layerType) => {
     type: null,
     xAxis: null,
     yAxis: null,
+    saved:false,
     multiLayer: layerType,
   };
 };
@@ -40,6 +41,7 @@ const layerSlice = createSlice({
       currentLayer.xAxis = action.payload.xAxis;
       currentLayer.yAxis = action.payload.yAxis;
       currentLayer.type = action.payload.type;
+      currentLayer.saved = true;
       currentLayer.title = `new layer - ${action.payload.type.toUpperCase()}`;
     },
   },
