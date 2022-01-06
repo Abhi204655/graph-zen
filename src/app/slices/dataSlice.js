@@ -4,6 +4,7 @@ const initialState = {
   data: null,
   uploaded: false,
   dataTypes: null,
+  fileName:null,
 };
 
 const dataSlice = createSlice({
@@ -11,6 +12,7 @@ const dataSlice = createSlice({
   initialState,
   reducers: {
     upload: (state, action) => {
+      state.fileName = action.payload.fileName;
       state.data = action.payload.data;
       state.uploaded = true;
       state.dataTypes = action.payload.dataTypes;

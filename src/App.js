@@ -11,7 +11,7 @@ function App() {
     <>
       <FileUpload visible={visible} setVisible={setVisible} />
       <main className={Styles["App-wrapper"]}>
-        <Sidebar />
+        <Sidebar setVisible={setVisible}/>
         <div className={Styles["graph-container"]}>
           <Graph />
           <Settings />

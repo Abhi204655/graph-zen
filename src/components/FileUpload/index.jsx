@@ -21,7 +21,7 @@ const FileUpload = ({ visible, setVisible }) => {
         const result = _util.getJsonOutOfExcel(data);
         const formattedData = _util.formatData(JSON.parse(result));
         let _dataTypes = _util.getDataTypes(JSON.parse(result)[0]);
-        dispatch(upload({ data: formattedData, dataTypes: _dataTypes }));
+        dispatch(upload({ fileName:file.name,data: formattedData, dataTypes: _dataTypes }));
         message.success("file uploaded", 2);
         setVisible(false);
       };
@@ -64,9 +64,6 @@ const FileUpload = ({ visible, setVisible }) => {
         visible={visible}
         onOk={() => handleOk}
         onCancel={() => setVisible(false)}
-        maskClosable={false}
-        keyboard={false}
-        closable={false}
         className={Styles["modal-container"]}
         footer={[
           <Button
