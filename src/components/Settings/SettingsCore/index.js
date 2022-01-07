@@ -16,7 +16,7 @@ const alignmentOptions = [
   { label: 'End', value: 'end' }
 ]
 
-const SettingsCore = () => {
+const SettingsCore = ({setVisible}) => {
   const layers = useSelector((state) => state.layer.layers);
   const chartOptions = useSelector(state => state.chart.options);
   const dispatch = useDispatch();
@@ -62,6 +62,7 @@ const SettingsCore = () => {
       backgroundColor: Color(color).alpha(0.5).string(),
     };
     dispatch(changeChartColor(payload));
+    setVisible(false);
   };
 
   const handleSaveTitle = (add) => {
@@ -75,6 +76,7 @@ const SettingsCore = () => {
       fontSize
     }
     dispatch(addChartTitle(payload));
+    setVisible(false);
   }
 
   return (
