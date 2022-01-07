@@ -12,7 +12,6 @@ const { Dragger } = Upload;
 const FileUpload = ({ visible, setVisible }) => {
   const [file, setFile] = useState(null);
   const dispatch = useDispatch();
-  console.log(sample)
 
   const handleOk = () => {
     if (file) {

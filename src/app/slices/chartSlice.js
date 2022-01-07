@@ -7,7 +7,18 @@ const initialState = {
         beginAtZero: false,
       },
     },
-    dragData: true,
+    plugins: {
+      title: {
+        display: false,
+        text: '',
+        position: "top",
+        align: 'start',
+        font: {
+          weight: "bold",
+          size: 20
+        }
+      }
+    }
   },
   data: { datasets: [] },
   init: false,
@@ -63,10 +74,23 @@ const chartSlice = createSlice({
         }
       }
     },
+    addChartTitle: (state, action) => {
+      if (action.payload.add) {
+        state.options.plugins.title.display = true;
+        state.options.plugins.title.text = action.payload.title;
+        state.options.plugins.title.align = action.payload.align;
+        state.options.plugins.title.font.size = action.payload.fontSize;
+      } else {
+        state.options.plugins.title.display = false;
+        state.options.plugins.title.text = '';
+        state.options.plugins.title.align = 'start';
+        state.options.plugins.title.font.size = 20;
+      }
+    }
   },
 });
 
 const { reducer: chartReducer } = chartSlice;
-export const { addTitle, addSeries, removeSeries, changeChartColor } =
+export const { addTitle, addSeries, removeSeries, changeChartColor, addChartTitle } =
   chartSlice.actions;
 export default chartReducer;
