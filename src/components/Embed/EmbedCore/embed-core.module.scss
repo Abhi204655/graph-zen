@@ -1,0 +1,23 @@
+.code-block {
+  width: 100%;
+  border: 1px dashed black;
+  padding: 1.5em;
+  border-radius: 5px;
+  font-weight: 500;
+  font-size: 1em;
+  position: relative;
+  & > p {
+    color: rgba(0, 0, 0, 0.5);
+  }
+}
+.copy-btn {
+  position: absolute !important;
+  top: 0.5em;
+  right: 0.5em;
+  display: grid;
+  place-content: center;
+}
+.URL {
+  font-weight: bold;
+  color: black !important;
+}

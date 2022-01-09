@@ -1,4 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import * as Services from "../../services";
 
 const initialState = {
   options: {
@@ -10,20 +11,40 @@ const initialState = {
     plugins: {
       title: {
         display: false,
-        text: '',
+        text: "",
         position: "top",
-        align: 'start',
+        align: "start",
         font: {
           weight: "bold",
-          size: 20
-        }
-      }
-    }
+          size: 20,
+        },
+      },
+    },
   },
   data: { datasets: [] },
   init: false,
   canBeLayered: true,
+  embedLoading: false,
+  embedId: null,
+  graphFetched: false,
 };
+
+export const createEmbedId = createAsyncThunk(
+  "chart/createEmbedId",
+  async (load) => {
+    console.log(load);
+    const id = await Services.storeData(load);
+    return id;
+  }
+);
+
+export const getDataFromEmbedId = createAsyncThunk(
+  "chart/getDataFromEmbedId",
+  async (id) => {
+    const data = await Services.getData(id);
+    return data;
+  }
+);
 
 const chartSlice = createSlice({
   name: "chart",
@@ -82,15 +103,52 @@ const chartSlice = createSlice({
         state.options.plugins.title.font.size = action.payload.fontSize;
       } else {
         state.options.plugins.title.display = false;
-        state.options.plugins.title.text = '';
-        state.options.plugins.title.align = 'start';
+        state.options.plugins.title.text = "";
+        state.options.plugins.title.align = "start";
         state.options.plugins.title.font.size = 20;
       }
-    }
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(createEmbedId.pending, (state, action) => {
+        state.embedLoading = true;
+      })
+      .addCase(createEmbedId.fulfilled, (state, action) => {
+        state.embedLoading = false;
+        if (!action.payload.regenerate) {
+          state.embedId = action.payload.id;
+        }
+      })
+      .addCase(createEmbedId.rejected, (state, action) => {
+        state.embedLoading = false;
+      })
+      .addCase(getDataFromEmbedId.pending, (state, action) => {
+        state.embedLoading = true;
+      })
+      .addCase(getDataFromEmbedId.fulfilled, (state, action) => {
+        state.embedLoading = false;
+        if (action.payload.invalid) {
+          state.graphFetched = false;
+        } else {
+          state.options = action.payload.options;
+          state.data = action.payload.data;
+          state.graphFetched = true;
+        }
+      })
+      .addCase(getDataFromEmbedId.rejected, (state, action) => {
+        state.embedLoading = false;
+        state.graphFetched = false;
+      });
   },
 });
 
 const { reducer: chartReducer } = chartSlice;
-export const { addTitle, addSeries, removeSeries, changeChartColor, addChartTitle } =
-  chartSlice.actions;
+export const {
+  addTitle,
+  addSeries,
+  removeSeries,
+  changeChartColor,
+  addChartTitle,
+} = chartSlice.actions;
 export default chartReducer;

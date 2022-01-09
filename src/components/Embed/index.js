@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import Styles from "./settings.module.scss";
-import { Button, Drawer, Tooltip } from "antd";
+import Styles from "./embed.module.scss";
 import { useSelector } from "react-redux";
-import { SettingOutlined } from "@ant-design/icons";
-import SettingsCore from "./SettingsCore";
+import { Drawer, Button, Tooltip } from "antd";
+import { BsCode } from "react-icons/bs";
+import EmbedCore from "./EmbedCore";
 
-const Settings = () => {
+const Embed = () => {
   const chartData = useSelector((state) => state.chart.data);
   const [visible, setVisible] = useState(false);
 
@@ -14,27 +14,28 @@ const Settings = () => {
   };
   return (
     <>
-      <Tooltip placement="bottom" title="Settings">
+      <Tooltip placement="bottom" title="Embed">
         <Button
           type="primary"
           shape="circle"
-          icon={<SettingOutlined />}
-          onClick={() => setVisible((prev) => !prev)}
+          style={{ display: "grid", placeContent: "center" }}
+          icon={<BsCode style={{ fontSize: "22px" }} />}
           disabled={chartData.datasets.length === 0}
-          className={Styles["settings-trigger"]}
+          onClick={() => setVisible((prev) => !prev)}
+          className={Styles["embed-trigger"]}
         />
       </Tooltip>
       <Drawer
-        title="Settings"
+        title="Embed Code"
         placement="right"
         closable={false}
         onClose={onClose}
         visible={visible}
       >
-        <SettingsCore setVisible={setVisible} />
+        <EmbedCore setVisible={setVisible} />
       </Drawer>
     </>
   );
 };
 
-export default Settings;
+export default Embed;
