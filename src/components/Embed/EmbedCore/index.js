@@ -36,7 +36,7 @@ const EmbedCore = () => {
     if (embedId) {
       return `${baseUrl}embed/${embedId}`;
     }
-    return "{YOUR_EMBED_ID_GOES_HERE}";
+    return `${baseUrl}embed/{YOUR_EMBED_ID_GOES_HERE}`;
   };
 
   const getEmbedCode = () => {
@@ -68,7 +68,11 @@ const EmbedCore = () => {
         </p>
         <p>{`></iframe>`}</p>
         <CopyToClipboard text={getEmbedCode()} onCopy={handleOnCopy}>
-          <Button shape="circle" className={Styles["copy-btn"]}>
+          <Button
+            shape="circle"
+            className={Styles["copy-btn"]}
+            disabled={!embedId}
+          >
             {copied ? <RiFileCopyFill /> : <RiFileCopyLine />}
           </Button>
         </CopyToClipboard>
