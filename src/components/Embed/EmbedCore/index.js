@@ -29,7 +29,7 @@ const EmbedCore = () => {
 
   const baseUrl =
     process.env.NODE_ENV === "production"
-      ? (process.env.BASE_URL ? process.env.BASE_URL : "http://graph-zen.ml/")
+      ? (process.env.REACT_APP_BASE_URL ? process.env.REACT_APP_BASE_URL : "https://graph-zen.ml/")
       : "http://localhost:3000/";
 
   const getURL = () => {
