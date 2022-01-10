@@ -29,7 +29,7 @@ const EmbedCore = () => {
 
   const baseUrl =
     process.env.NODE_ENV === "production"
-      ? "https://graph-zen.netlify.app/"
+      ? (process.env.BASE_URL ? process.env.BASE_URL : "http://graph-zen.ml/")
       : "http://localhost:3000/";
 
   const getURL = () => {
